@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yingjie Zhao - ePortfolio</title>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@400;700;900&display=swap');
+
+    :root {
+      --primary: #861F41;
+      --primary-hover: #6b1833;
+      --accent: #cf4420;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+      --radius: 16px;
+      --max-width: 1040px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 顶部导航 */
+    nav {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      font-family: 'Merriweather', serif;
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--primary);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+      cursor: pointer;
+    }
+
+    .nav-links { display: flex; gap: 0.5rem; list-style: none; }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .nav-links a:hover { color: var(--primary); background: rgba(134, 31, 65, 0.05); }
+    .nav-links a.active { color: var(--primary); background: rgba(134, 31, 65, 0.1); font-weight: 600; }
+
+    main {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+      position: relative;
+    }
+
+    /* ========== 页面切换：不用display:none，避免打印空白 ========== */
+    .page {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+    .page.active {
+      position: relative;
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero区域 */
+    .hero-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 6px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+    }
+
+    .hero-photo {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--surface);
+      box-shadow: 0 0 0 4px rgba(134, 31, 65, 0.1);
+      flex-shrink: 0;
+    }
+
+    .hero-photo-placeholder {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 4px rgba(134, 31, 65, 0.1);
+    }
+
+    .hero-text { flex: 1; }
+
+    .hero-text h1 {
+      font-family: 'Merriweather', serif;
+      font-size: 2.5rem;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .hero-text h1 svg { width: 28px; height: 28px; fill: #1d9bf0; }
+
+    .hero-text .subtitle {
+      font-size: 1.1rem;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-text .affiliation {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    /* 学术指标 */
+    .metrics-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .metric-item {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .metric-item:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(134, 31, 65, 0.2);
+    }
+
+    .metric-value {
+      font-family: 'Merriweather', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    .metric-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+
+    /* 联系链接 */
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .contact-links a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.5rem 1.2rem;
+      border-radius: 999px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .contact-links a:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* 内容区块 */
+    section {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    section h2 {
+      font-family: 'Merriweather', serif;
+      font-size: 1.5rem;
+      color: var(--text-main);
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    section h2::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    section p { margin-bottom: 1rem; color: #334155; font-size: 1.05rem; }
+
+    /* 时间线 */
+    .timeline { position: relative; margin-top: 1rem; }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px; top: 10px; bottom: 10px;
+      width: 2px;
+      background: var(--border);
+    }
+
+    .entry {
+      position: relative;
+      padding-left: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .entry::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 6px;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 3px solid var(--text-muted);
+      z-index: 2;
+    }
+
+    .entry.first-author::before { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(134, 31, 65, 0.1); }
+
+    .entry h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.4rem;
+      line-height: 1.4;
+    }
+
+    .entry .meta {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .entry .meta strong { color: var(--text-main); }
+    .entry .meta em { color: var(--primary); font-style: normal; font-weight: 500; }
+
+    .tag-badge {
+      display: inline-block;
+      background: rgba(134, 31, 65, 0.1);
+      color: var(--primary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+      text-transform: uppercase;
+    }
+
+    /* CV列表 */
+    .highlight-list { list-style: none; }
+    .highlight-list li {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      font-size: 1.05rem;
+    }
+    .highlight-list li::before {
+      content: '✦';
+      color: var(--primary);
+      font-size: 1.2rem;
+      line-height: 1.5;
+    }
+    .highlight-list li:last-child { border-bottom: none; }
+
+    /* 按钮 */
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary);
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.8rem 2rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(134, 31, 65, 0.2);
+      cursor: pointer;
+      border: none;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-download:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(134, 31, 65, 0.3);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .hero-card { flex-direction: column; text-align: center; padding: 2rem 1.5rem; gap: 1.5rem; }
+      .hero-text h1 { justify-content: center; font-size: 2rem; }
+      .contact-links { justify-content: center; }
+      .metrics-bar { grid-template-columns: 1fr; }
+      section { padding: 1.5rem; }
+      .nav-inner { flex-direction: column; gap: 1rem; padding: 1rem; }
+      .nav-links { width: 100%; justify-content: space-between; gap: 0; }
+      .nav-links a { padding: 0.5rem; font-size: 0.9rem; }
+      .timeline::before { left: 5px; }
+      .entry { padding-left: 1.5rem; }
+      .entry::before { width: 12px; height: 12px; }
+    }
+
+    /* ========== 打印样式 ========== */
+    @page {
+      margin: 1.5cm 1cm;
+      size: A4;
+      @top-center { content: ""; }
+      @bottom-center { content: ""; }
+      @top-left { content: ""; }
+      @top-right { content: ""; }
+      @bottom-left { content: ""; }
+      @bottom-right { content: ""; }
+    }
+    
+    @media print {
+      nav, footer, .btn-download, .contact-links, .hero-photo-placeholder { 
+        display: none !important; 
+      }
+      
+      html, body { 
+        background: #fff !important; 
+        color: #000 !important; 
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
+        font-size: 10pt; 
+        line-height: 1.3;
+        margin: 0 !important;
+        padding: 0 !important;
+        height: auto !important;
+      }
+
+      main { padding: 0 !important; margin: 0 !important; max-width: 100% !important; }
+
+      /* 打印时所有页面全部正常显示，按顺序排列 */
+      .page {
+        position: relative !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        display: block !important;
+        margin-bottom: 20px !important;
+      }
+      
+      .hero-card { 
+        display: flex !important; 
+        box-shadow: none !important; 
+        border: none !important; 
+        padding: 0 !important; 
+        margin-bottom: 10px !important; 
+        gap: 2rem;
+      }
+      .hero-card::before { display: none; }
+      
+      .hero-photo {
+        display: block !important;
+        width: 140px !important;
+        height: 140px !important;
+        border-radius: 50% !important;
+        object-fit: cover;
+      }
+      
+      .hero-text h1 { 
+        font-size: 18pt; 
+        margin-bottom: 2px; 
+        color: #000 !important; 
+        border-bottom: 2px solid #000; 
+        padding-bottom: 5px; 
+      }
+      .hero-text h1 svg { display: none; }
+      .hero-text .subtitle { font-size: 11pt; color: #000 !important; margin-bottom: 2px; font-weight: bold; }
+      .hero-text .affiliation { font-size: 10pt; margin-bottom: 10px; color: #333 !important; }
+
+      .metrics-bar { display: flex !important; gap: 20px !important; margin-bottom: 15px !important; }
+      .metric-item { padding: 0 !important; border: none !important; box-shadow: none !important; text-align: left !important; }
+      .metric-value { font-size: 11pt !important; color: #000 !important; font-weight: bold; }
+      .metric-label { font-size: 9pt !important; color: #444 !important; display: inline; }
+
+      section { 
+        box-shadow: none !important; 
+        border: none !important; 
+        padding: 0 !important; 
+        margin-bottom: 15px !important; 
+        page-break-inside: auto !important;
+      }
+      section h2 { 
+        font-size: 12pt !important; 
+        border-bottom: 1px solid #333 !important; 
+        padding-bottom: 2px !important; 
+        margin-bottom: 8px !important; 
+        margin-top: 15px !important; 
+        color: #000 !important; 
+        page-break-after: avoid !important;
+      }
+      section h2::after { display: none; }
+      section p { font-size: 9.5pt !important; margin-bottom: 6px !important; color: #000 !important; }
+
+      .timeline::before, .entry::before { display: none; }
+      .entry { 
+        padding-left: 0 !important; 
+        margin-bottom: 8px !important; 
+        page-break-inside: avoid !important;
+      }
+      .entry h3 { font-size: 9.5pt !important; margin-bottom: 2px; font-weight: bold; color: #000; line-height: 1.2; }
+      .entry .meta { font-size: 9pt !important; margin-bottom: 2px; color: #333; line-height: 1.2; }
+      .tag-badge { background: none !important; color: #000 !important; padding: 0 !important; font-size: 9pt !important; font-weight: normal !important; }
+
+      #page-cv section:nth-child(2) { display: none !important; }
+      .highlight-list li { padding: 3px 0 !important; font-size: 9.5pt !important; border: none !important; page-break-inside: avoid; }
+      .highlight-list li::before { content: '•'; font-size: 9pt; color: #000; margin-right: 5px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 顶部导航 -->
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-brand" onclick="switchPage('home')">Yingjie Zhao</div>
+      <ul class="nav-links">
+        <li><a id="nav-home" class="active" onclick="switchPage('home')">Home</a></li>
+        <li><a id="nav-research" onclick="switchPage('research')">Research</a></li>
+        <li><a id="nav-teaching" onclick="switchPage('teaching')">Teaching</a></li>
+        <li><a id="nav-cv" onclick="switchPage('cv')">CV</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ================= HOME 页面 ================= -->
+    <div id="page-home" class="page active">
+      <div class="hero-card">
+        <img src="profile.jpg" alt="Yingjie Zhao" class="hero-photo"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+        <div class="hero-photo-placeholder" style="display:none;">Photo<br>200x200</div>
+
+        <div class="hero-text">
+          <h1>
+            Yingjie Zhao 
+            <svg viewBox="0 0 24 24"><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.918-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.337 2.25c-.416-.165-.866-.25-1.336-.25-2.21 0-3.918 1.79-3.918 4 0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.46.75 2.76 1.877 3.48-.135.4-.207.825-.207 1.26 0 2.21 1.71 3.998 3.918 3.998.47 0 .92-.084 1.336-.25C9.182 21.585 10.49 22.5 12 22.5s2.816-.917 3.337-2.25c.416.165.866.25 1.336.25 2.21 0 3.918-1.79 3.918-4 0-.435-.072-.86-.207-1.26 1.127-.72 1.877-2.02 1.877-3.48zm-11.39 4.14L7.17 12.7l1.41-1.41 2.53 2.53 5.66-5.66 1.41 1.41-7.07 7.07z"></path></svg>
+          </h1>
+          <p class="subtitle">Ph.D. Student (Year 1) · Master of Science</p>
+          <p class="affiliation">Virginia Tech · Blacksburg, United States</p>
+          
+          <div class="contact-links">
+            <a href="mailto:zhaoyingjieyx@vt.edu">📧 Email</a>
+            <a href="https://orcid.org/0009-0007-8236-8608" target="_blank">🆔 ORCID</a>
+            <a href="https://www.researchgate.net/profile/Yingjie-Zhao-25" target="_blank">🎓 ResearchGate</a>
+            <a href="https://scholar.google.com/citations?user=3bPZ6FsAAAAJ&hl=zh-CN" target="_blank">📚 Google Scholar</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="metrics-bar">
+        <div class="metric-item">
+          <div class="metric-value">11</div>
+          <div class="metric-label">Publications</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-value">189</div>
+          <div class="metric-label">Citations</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-value">6</div>
+          <div class="metric-label">h-index</div>
+        </div>
+      </div>
+
+      <section>
+        <h2>About Me</h2>
+        <p>
+          I am a first-year Ph.D. student at <strong>Virginia Tech</strong>, having previously earned my Master of Science degree at Beijing University of Civil Engineering and Architecture. 
+        </p>
+        <p>
+          My research focuses on <strong>Structural Health Monitoring (SHM)</strong>, <strong>anomaly detection</strong>, and <strong>machine learning applications</strong>. I have published 11 peer-reviewed journal articles, accumulating over 189 citations and an h-index of 6. My work is driven by the goal of developing low-cost, accurate computational frameworks to solve complex civil engineering problems.
+        </p>
+      </section>
+
+      <section>
+        <h2>Objective</h2>
+        <p>
+          As a first-year Ph.D. student, my immediate objective is to deepen my expertise in structural health monitoring and neural networks. Upon completing my doctoral degree, I intend to pursue a career in academia or a research-intensive industry role, focusing on designing robust, scalable, and intelligent structural monitoring systems. I aim to bridge the gap between advanced machine learning algorithms and practical civil/structural engineering applications.
+        </p>
+      </section>
+    </div>
+
+    <!-- ================= RESEARCH 页面 ================= -->
+    <div id="page-research" class="page">
+      <section>
+        <h2>Research Overview</h2>
+        <p>
+          My research centres on <strong>Structural Health Monitoring (SHM)</strong>, <strong>abnormal data detection and cleaning</strong>, and <strong>deep learning for civil engineering</strong>. My work spans historic masonry structures, long-span bridges, and cable modal identification, with a consistent focus on developing low-cost, accurate frameworks that bridge advanced machine learning and practical structural monitoring.
+        </p>
+      </section>
+
+      <section>
+        <h2>Publications (11 Journal Articles)</h2>
+        <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 2rem;">
+          All publications are verified via <a href="https://orcid.org/0009-0007-8236-8608" target="_blank" style="color: var(--primary); font-weight: 600;">ORCID</a>. Highlighted nodes indicate first-author papers.
+        </p>
+
+        <div class="timeline">
+          <div class="entry first-author">
+            <h3>Monitoring data cleaning of in-service historic masonry structures: A case study using BiLSTM-AdaBoost and DBSCAN models</h3>
+            <p class="meta"><strong>Zhao, Y.</strong>, Ju, H., Zheng, L., Deng, Y., &amp; Li, A. · 2026 · <em>Measurement</em> <span class="tag-badge">First Author</span></p>
+          </div>
+
+          <div class="entry">
+            <h3>Unsupervised Data Cleaning for Bridge Structural Health Monitoring</h3>
+            <p class="meta">Deng, Y., Wu, T., Ju, H., <strong>Zhao, Y.</strong>, Cao, B., Wu, Y., &amp; Li, A. · 2026 · <em>IEEE Sensors Journal</em></p>
+          </div>
+
+          <div class="entry">
+            <h3>Temperature Field Analysis of Ancient City Wall: Measurement and Simulation</h3>
+            <p class="meta">Deng, Y., Zheng, L., <strong>Zhao, Y.</strong>, Ju, H., &amp; Li, A. · 2026 · <em>International Journal of Architectural Heritage</em></p>
+          </div>
+
+          <div class="entry">
+            <h3>An accurate and low-cost abnormal data detection framework for structural health monitoring using hybrid neural network</h3>
+            <p class="meta">Ju, H., <strong>Zhao, Y.</strong>, Deng, Y., &amp; Li, A. · 2026 · <em>Structure and Infrastructure Engineering</em></p>
+          </div>
+
+          <div class="entry">
+            <h3>Deflection prediction and early warning for long-span bridges using a fusion ATT-BiGRU model and real-time updated thresholds</h3>
+            <p class="meta">Ju, H., <strong>Zhao, Y.</strong>, Deng, Y., Yi, T.-H., &amp; Li, A. · 2025 · <em>Structures</em></p>
+          </div>
+
+          <div class="entry">
+            <h3>Real-time identification framework for instantaneous frequency of bridge cables considering multiple types of abnormal monitoring data</h3>
+            <p class="meta">Ju, H., <strong>Zhao, Y.</strong>, Chen, X., Deng, Y., &amp; Li, A. · 2025 · <em>Engineering Structures</em></p>
+          </div>
+
+          <div class="entry">
+            <h3>Unsupervised learning-based data cleaning framework for structural health monitoring using GoogLeNet and clustering models</h3>
+            <p class="meta">Deng, Y., <strong>Zhao, Y.</strong>, He, Y., Ju, H., &amp; Li, A. · 2025 · <em>Structural Health Monitoring</em></p>
+          </div>
+
+          <div class="entry">
+            <h3>Predicting Structural Temperature of Ancient City Walls: A Case Study Using Ambient Temperature and Deep Learning</h3>
+            <p class="meta">Ju, H., <strong>Zhao, Y.</strong>, Zheng, L., Deng, Y., &amp; Li, A. · 2025 · <em>International Journal of Architectural Heritage</em></p>
+          </div>
+
+          <div class="entry">
+            <h3>Instantaneous Modal Frequency Identification of Bridge Cables under the Influence of Abnormal Monitoring Data Using SSTFT and M-DBSCAN Models</h3>
+            <p class="meta">Zeng, G., <strong>Zhao, Y.</strong>, Deng, Y., Wu, T., &amp; Ju, H. · 2025 · <em>International Journal of Structural Stability and Dynamics</em></p>
+          </div>
+
+          <div class="entry">
+            <h3>Automatic Modal Frequency Identification of Bridge Cables under Influence of Abnormal Monitoring Data</h3>
+            <p class="meta">Ju, H., Deng, Y., <strong>Zhao, Y.</strong>, Yi, T.-H., Zhong, G., &amp; Li, A. · 2024 · <em>Journal of Performance of Constructed Facilities</em></p>
+          </div>
+
+          <div class="entry">
+            <h3>Abnormal data detection for structural health monitoring: State-of-the-art review</h3>
+            <p class="meta">Deng, Y., <strong>Zhao, Y.</strong>, Ju, H., Yi, T.-H., &amp; Li, A. · 2024 · <em>Developments in the Built Environment</em></p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ================= TEACHING 页面 ================= -->
+    <div id="page-teaching" class="page">
+      <section>
+        <h2>Teaching Statement</h2>
+        <p>
+          My teaching philosophy is rooted in bridging theoretical fundamentals with real-world engineering applications. I aim to create an inclusive and engaging classroom environment where students from diverse backgrounds can confidently explore structural engineering, data science, and modern construction IT tools. By integrating practical examples and interactive problem-solving, I strive to help students develop both analytical skills and technical intuition.
+        </p>
+      </section>
+
+      <section>
+        <h2>Courses Taught &amp; Assisted</h2>
+        <div class="timeline">
+          <div class="entry first-author">
+            <h3>IT in Design and Construction</h3>
+            <p class="meta"><strong>Role:</strong> Teaching Assistant (TA) · Virginia Tech <span class="tag-badge">Current</span></p>
+            <p>Assisted in delivering course materials focusing on the application of information technology in the design and construction industry. Responsibilities include holding office hours, grading assignments, and guiding students in practical projects involving digital workflows and construction IT.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ================= CV 页面 ================= -->
+    <div id="page-cv" class="page">
+      <section>
+        <h2>Selected Highlights</h2>
+        <ul class="highlight-list">
+          <li><strong>Ph.D. Student (Year 1)</strong>, Virginia Polytechnic Institute and State University, 2026–present.</li>
+          <li><strong>Master of Science</strong>, Beijing University of Civil Engineering and Architecture.</li>
+          <li>Accumulated <strong>189 Citations</strong> and an <strong>h-index of 6</strong>.</li>
+          <li>Author of 11 peer-reviewed journal articles (1 as first author in <em>Measurement</em>).</li>
+          <li>Teaching Assistant for <em>IT in Design and Construction</em> at Virginia Tech.</li>
+          <li>ORCID iD: <a href="https://orcid.org/0009-0007-8236-8608" target="_blank" style="color: var(--primary); font-weight: 600;">0009-0007-8236-8608</a></li>
+          <li><a href="https://scholar.google.com/citations?user=3bPZ6FsAAAAJ&hl=zh-CN" target="_blank" style="color: var(--primary); font-weight: 600;">Google Scholar: 3bPZ6FsAAAAJ</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Full CV / Resume</h2>
+        <p style="margin-bottom: 1.5rem;">
+          Click the button below to save this page as a PDF. (This will print the entire portfolio automatically).
+        </p>
+        
+        <button onclick="window.print()" class="btn-download">
+          🖨️ Print / Save as PDF
+        </button>
+      </section>
+    </div>
+
+  </main>
+
+  <footer>
+    © 2026 Yingjie Zhao · Built for Virginia Tech ePortfolio
+  </footer>
+
+  <!-- 页面切换脚本 -->
+  <script>
+    function switchPage(pageId) {
+      // 隐藏所有页面
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      
+      // 移除所有导航高亮
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        link.classList.remove('active');
+      });
+      
+      // 显示目标页面并高亮导航
+      document.getElementById('page-' + pageId).classList.add('active');
+      document.getElementById('nav-' + pageId).classList.add('active');
+
+      // 切换页面回到顶部
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
+<!-- （注：内容由AI生成） -->
